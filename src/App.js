@@ -3,13 +3,14 @@ import './App.css';
 import {Button as MaterialButton} from "@material-ui/core";
 import SelectBox from "./components/SelectBox";
 import TextField from "@material-ui/core/TextField";
-import {getPrefix, postGenerateTextEndpoint} from "./utils";
+import {getPrefix, postGenerateTextEndpoint, replaceTabs} from "./utils";
 import Checkbox from "@material-ui/core/Checkbox";
 
 function App() {
     const [text, setText] = useState("");
     const [only_full_lines, setOnly_full_lines] = useState(false);
     const [group_answers, setGroup_answers] = useState(false);
+    const [replaceTab, setReplaceTab] = useState(true);
     const [beam_size, setBeam_size] = useState(5);
     const [num_iterations, setNum_iterations] = useState(10);
     const [prefix, setPrefix] = useState("");
@@ -18,7 +19,7 @@ function App() {
 
     const generateText = () => {
         console.log({
-            code: text,
+            code: replaceTab ? replaceTabs(text) : text,
             prefix,
             offset: text.length,
             filename: "main.py",
@@ -55,12 +56,21 @@ function App() {
                             value={only_full_lines}
                             onChange={(event, checked) => setOnly_full_lines(checked)}
                         />
-
+                    </div>
+                    <div>
                         <Fragment>Group answers</Fragment>
                         <Checkbox
                             label="Group answers"
                             value={group_answers}
                             onChange={(event, checked) => setGroup_answers(checked)}
+                        />
+                    </div>
+                    <div>
+                        <Fragment>Replace tab (auto replacing 4 spaces with tab)</Fragment>
+                        <Checkbox
+                            label="Group answers"
+                            value={replaceTab}
+                            onChange={(event, checked) => setReplaceTab(checked)}
                         />
                     </div>
                     <TextField

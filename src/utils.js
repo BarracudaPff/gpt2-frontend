@@ -30,3 +30,7 @@ export const getPrefix = (line) => {
     const words = line.trim().split(" ")
     return words[words.length-1]
 }
+
+export const replaceTabs = (code) => {
+    return code.replace("    ","\t")
+}
