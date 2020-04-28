@@ -21,7 +21,7 @@ function App() {
         console.log({
             code: replaceTab ? replaceTabs(text) : text,
             prefix,
-            offset: text.length,
+            offset: replaceTab ? replaceTabs(text).length : text.length,
             filename: "main.py",
             mode: "FULL_LINE",
             beam_size,
@@ -65,14 +65,14 @@ function App() {
                             onChange={(event, checked) => setGroup_answers(checked)}
                         />
                     </div>
-                    <div>
-                        <Fragment>Replace tab (auto replacing 4 spaces with tab)</Fragment>
-                        <Checkbox
-                            label="Group answers"
-                            value={replaceTab}
-                            onChange={(event, checked) => setReplaceTab(checked)}
-                        />
-                    </div>
+                    {/*<div>*/}
+                    {/*    <Fragment>Replace tab (auto replacing 4 spaces with tab)</Fragment>*/}
+                    {/*    <Checkbox*/}
+                    {/*        label="Group answers"*/}
+                    {/*        value={replaceTab}*/}
+                    {/*        onChange={(event, checked) => setReplaceTab(checked)}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <TextField
                         label="Beam size"
                         style={{marginRight: 16, width: 100, marginTop: 16}}
@@ -119,6 +119,11 @@ function App() {
 
             {generatedText.pending &&
             <div className='result pending'>Please wait</div>}
+
+            {generatedText.complete &&
+            <div className='context' style={{margin: 8}}>
+                <p style={{fontWeight:"bold"}}>{"Context is :|" + (replaceTab ? replaceTabs(text) : text) + "|"}</p>
+            </div>}
 
             {generatedText.complete &&
             (generatedText.error ?
